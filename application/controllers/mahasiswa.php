@@ -10,11 +10,13 @@ class Mahasiswa extends CI_Controller {
 
 			$pendaftar = $this->model_pendaftar->view_myproject()->result();
 			$data['pendaftar'] = array();
+			$arr_gambar = $this->model_pendaftar->profil_gambar($id)->result();
+			$data['gambar'] = $arr_gambar[0];
 			foreach ($pendaftar as $pdr) :
 				array_push($data['pendaftar'],$pdr->id_project);
 			endforeach;
 
-			$this->load->view('header');
+			$this->load->view('header',$data);
 			$this->load->view('mahasiswa/project_list', $data);
 			$this->load->view('footer');
 		}else {
@@ -24,8 +26,10 @@ class Mahasiswa extends CI_Controller {
 	}
 	public function dashboard(){
 		$data['pendaftar'] = $this->model_pendaftar->view_myproject()->result();
+		$arr_gambar = $this->model_pendaftar->profil_gambar($id)->result();
+			$data['gambar'] = $arr_gambar[0];
 		if($this->session->userdata('role_id')==2){
-			$this->load->view('header');
+			$this->load->view('header',$data);
 			$this->load->view('mahasiswa/dashboard_mahasiswa', $data);
 			$this->load->view('footer');
 		}else {
